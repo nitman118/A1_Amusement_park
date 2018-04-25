@@ -41,7 +41,7 @@ public class Simulation {
 		
 		ArrayList<Group> que = new ArrayList<>();
 		
-		while(globTime < 1000) {
+		while(globTime < 100000) {
 			
 			//generate and add arrived groups to the list que
 			Group[] arrivedGroups = generateGroups(3);
@@ -52,17 +52,28 @@ public class Simulation {
 			//Current seats left
 			int leftPlaces = boatSize;
 			
-			//if there are groups in a que start loading
-			if (!que.isEmpty()) {
 				boolean isLoading = true;
 				
 				while (isLoading) {
-					Group currentGroup = que.get(0);
-					int currentGroupSize = currentGroup.getSize();
-					leftPlaces -= currentGroupSize;
-					que.remove(0);
-				}
-			} 
+					//if there are groups in a que start loading
+					if (!que.isEmpty()) {
+						
+						Group currentGroup = que.get(0);
+						int currentGroupSize = currentGroup.getSize();
+						
+						//if enough space remove group from the que and decrement left spaces by the size of the group
+						if (currentGroupSize <= leftPlaces) {
+							leftPlaces -= currentGroupSize;
+							que.remove(0);
+						} else {
+							isLoading = false;
+						}
+						
+					} else {
+						isLoading = false;
+					}
+					System.out.println(que.size() + " " + globTime);
+				} 
 			globTime++;
 			
 		}
@@ -78,16 +89,4 @@ public class Simulation {
 	
 	
 }
-class Group {
-	private int arrivalTime;
-	private int groupSize;
-	Group(int groupSize, int arrivalTime) {
-		// TODO Auto-generated method stub
-		this.groupSize = groupSize;
-		this.arrivalTime = arrivalTime;
-	}
-	
-	public int getSize() {
-		return this.groupSize;
-	}
-}
+
