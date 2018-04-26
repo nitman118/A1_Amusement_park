@@ -10,4 +10,8 @@ class Group {
 	public int getSize() {
 		return this.groupSize;
 	}
+	
+	public int getTime() {
+		return this.arrivalTime;
+	}
 }
